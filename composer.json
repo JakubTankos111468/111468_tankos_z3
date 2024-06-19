@@ -1,0 +1,5 @@
+{
+    "name": "xtankos/hra",
+    "require": {"workerman/workerman": "^4.0"}
+    
+}

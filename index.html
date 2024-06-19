@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.6.0.js"></script>
+    <title>Document</title>
+</head>
+
+<script>
+	let messageCount = 0;
+	let playerNum = 0;
+	$(document).ready(function () {
+		var ws = new WebSocket("wss://site230.webte.fei.stuba.sk:9000");
+
+		ws.onopen = function () { log("Connection established");
+		paddles1.forEach(paddle1 => {
+		paddle1.style.top = "90px";
+	});
+	paddles2.forEach(paddle2 => {
+		paddle2.style.top = "90px";
+	});
+	paddles3.forEach(paddle3 => {
+		paddle3.style.left = "140px";
+	});
+	paddles4.forEach(paddle4 => {
+		paddle4.style.left = "140px";
+	});
+		
+
+
+		
+
+
+};
+		ws.onerror = function (error) { log("Unknown WebSocket Error " + JSON.stringify(error)); };
+		ws.onmessage = function (e) {  var data = JSON.parse(e.data);
+								 log("< " + data.msg); 
+								 document.getElementById("numOfPlayers").innerHTML = "Number of players connected: " + data.num + "<br>";
+
+								 
+
+								 const paddles = document.getElementsByClassName("paddle");
+								 const firstPaddle = paddles[0];
+
+								 
+								 if(data.num == 1){
+									document.getElementById("board1").style.display = "block";
+									document.getElementById("board2").style.display = "none";
+									document.getElementById("board3").style.display = "none";
+									document.getElementById("board4").style.display = "none";
+									
+								 }
+								 else if(data.num == 2){
+									document.getElementById("board2").style.display = "block";
+																	
+									document.getElementById("board1").style.display = "none";
+									document.getElementById("board3").style.display = "none";
+									document.getElementById("board4").style.display = "none";
+									console.log("2");
+								 }
+								 else if(data.num == 3){
+									document.getElementById("board3").style.display = "block";
+									document.getElementById("board2").style.display = "none";
+									document.getElementById("board1").style.display = "none";
+									document.getElementById("board4").style.display = "none";
+									console.log("3");
+								 }
+								 else if(data.num == 4){
+									document.getElementById("board4").style.display = "block";
+									document.getElementById("board2").style.display = "none";
+									document.getElementById("board3").style.display = "none";
+									document.getElementById("board1").style.display = "none";
+									console.log("4");
+								 }
+								 else{
+									
+								 }
+
+
+
+			
+
+  messageCount++;
+
+  if (messageCount === 50) {
+    const message = JSON.parse(event.data);
+    console.log('50th message:', message);
+	playerNum = message.playerNum;
+  }
+
+
+const message = {
+  type: 'paddle_position',
+  paddle1: {
+    top: parseInt(paddle1.style.top)
+  },
+  paddle2: {
+    top: parseInt(paddle2.style.top)
+  },
+  paddle3: {
+    left: parseInt(paddle3.style.left)
+  },
+  paddle4: {
+    left: parseInt(paddle4.style.left)
+  }
+};
+
+  ws.send(JSON.stringify(message));
+
+let newLeft = data.ballDX;
+let newTop = data.ballDY;
+
+let paddle1_top = data.topPaddle1;
+const paddles1 = document.querySelectorAll(".paddle_1");
+let paddle2_top = data.topPaddle2;
+const paddles2 = document.querySelectorAll(".paddle_2");
+let paddle3_left = data.leftPaddle3;
+const paddles3 = document.querySelectorAll(".paddle_3");
+let paddle4_left = data.leftPaddle4;
+const paddles4 = document.querySelectorAll(".paddle_4");
+
+if(playerNum != 1){
+	paddles1.forEach(paddle1 => {
+	paddle1.style.top = paddle1_top + "px";
+})
+}
+
+
+if (playerNum != 2){
+	paddles2.forEach(paddle2 => {
+	paddle2.style.top = paddle2_top + "px";
+})
+}
+
+if(playerNum != 3){
+	paddles3.forEach(paddle3 => {
+	paddle3.style.left = paddle3_left + "px";
+})
+}
+if(playerNum != 4){
+	paddles4.forEach(paddle4 => {
+	paddle4.style.left = paddle4_left + "px";
+})
+}
+
+const goals1 = document.querySelectorAll(".goal1");
+const goals2 = document.querySelectorAll(".goal2");
+const goals3 = document.querySelectorAll(".goal3");
+const goals4 = document.querySelectorAll(".goal4");
+
+if(data.player1Lives <= 0){
+	paddles1.forEach(paddle1 => {
+	paddle1.style.display = "none";
+});
+	
+	
+	goals1.forEach(goal1 => {
+	goal1.style.display = "none";
+});
+}
+
+if(data.player2Lives <= 0){
+	paddles2.forEach(paddle2 => {
+	paddle2.style.display = "none";
+});
+	
+	
+	goals2.forEach(goal2 => {
+	goal2.style.display = "none";
+});
+}
+
+if(data.player3Lives <= 0){
+	paddles3.forEach(paddle3 => {
+	paddle3.style.display = "none";
+});
+	
+	
+	goals3.forEach(goal3 => {
+	goal3.style.display = "none";
+});
+}
+
+if(data.player4Lives <= 0){
+	paddles4.forEach(paddle4 => {
+	paddle4.style.display = "none";
+});
+	
+	
+	goals4.forEach(goal4 => {
+	goal4.style.display = "none";
+});
+}
+
+
+  const balls = document.querySelectorAll(".ball");
+
+  balls.forEach(ball => {
+   
+
+    ball.style.left = newLeft + "px";
+    ball.style.top = newTop + "px";
+
+});
+
+
+
+};
+
+
+
+
+		ws.onclose = function () { log("Connection closed - Either the host or the client has lost connection"); }
+
+		function log(m) {
+			$("#log").append(m + "<br />");
+		}
+
+		function send() {
+			$Msg = $("#msg");
+			if ($Msg.val() == "") return alert("Textarea is empty");
+
+			try {
+					ws.send($Msg.val()); log('> Sent to server:' + $Msg.val());
+				} catch (exception) {
+					log(exception);
+				}
+				$Msg.val("");
+		}
+
+		$("#send").click(send);
+		$("#msg").on("keydown", function (event) {
+			if (event.keyCode == 13) send();
+		});
+		$("#quit").click(function () {
+			log("Connection closed");
+			ws.close(); ws = null;
+		});      
+	});
+
+
+
+
+	
+</script>
+
+
+
+
+    <style>
+		html, body {
+			font-family:monospace;
+		}
+
+		#log {
+			height:200px;
+			border:1px solid black;
+			overflow:auto;
+		}
+
+		#msg {
+			width: 330px;
+		}
+    
+    div {
+      width:500px;
+      margin: 10px auto 10px auto;
+    }
+    
+    #number {
+    	width: 60px;  
+    	font-size: 115%; 
+      text-align: center; 
+    	background: lightgreen;
+    	padding: 5px;   
+    }
+
+	#board1 {
+          height: 25vw;
+          width: 30vw;
+        margin: 0 auto;
+        border: 20px solid #8c8c8c;
+		position: relative;
+   z-index: 1;
+        }
+	#board2 {
+          height: 25vw;
+          width: 30vw;
+        margin: 0 auto;
+        border: 20px solid #8c8c8c;
+		position: relative;
+   z-index: 1;
+   display: none;
+        }
+	#board3 {
+          height: 25vw;
+          width: 30vw;
+        margin: 0 auto;
+        border: 20px solid #8c8c8c;
+		position: relative;
+   z-index: 1;
+   display: none;
+        }
+	#board4 {
+          height: 25vw;
+          width: 30vw;
+        margin: 0 auto;
+        border: 20px solid #8c8c8c;
+		position: relative;
+   z-index: 1;
+   display: none;
+        }
+	.goal1{
+		height: 16vw;
+		width: 2vw;
+        background-color: white;
+		position: absolute;
+		top: 40px;
+   		left: -24px;
+		z-index: 2;
+	}
+	.goal2{
+		height: 16vw;
+		width: 2vw;
+        background-color: white;
+		position: absolute;
+		top: 40px;
+   		left: 368px;
+		z-index: 2;
+	}
+	.goal3{
+		height: 2vw;
+		width: 14vw;
+        background-color: white;
+		position: absolute;
+		top: 297px;
+   		left: 100px;
+		z-index: 2;
+	}
+	.goal4{
+		height: 2vw;
+		width: 14vw;
+        background-color: white;
+		position: absolute;
+		top: -34px;
+   		left: 100px;
+		z-index: 2;
+	}
+
+	.paddle {
+		height: 7vw;
+		width: 1vw;
+        background-color: red;
+		position: absolute;
+        }
+        
+        .paddle_1 {
+			top: 90px;
+   			left: 30px;
+			z-index: 3;
+        }
+        
+        .paddle_2 {
+			top: 90px;
+   			left: 325px;
+			z-index: 3;
+        }
+		.paddle_3{
+			height: 1vw;
+		width: 8vw;
+		position: absolute;
+		top: 275px;
+   		left: 140px;
+		z-index: 2;
+		}
+		.paddle_4{
+			height: 1vw;
+		width: 8vw;
+		position: absolute;
+		top: 5px;
+   		left: 140px;
+		z-index: 2;
+		}
+		.ball {
+  height: 25px;
+  width: 25px;
+  background-color: #bbb;
+  border-radius: 50%;
+  position: absolute;
+    top: 130px;
+    left: 175px;
+}
+#loginButton {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 0 10px red;
+    transition: background-color 0.3s, color 0.3s;
+	margin-left: 45%;
+	width: 10%;
+  }
+  #numOfPlayers {
+	background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+	margin-left: 39.5%;
+	width: 20%;
+  }
+  
+  #loginButton:hover {
+    background-color: red;
+    color: black;
+  }
+	</style>   
+  
+<body> 
+	
+	<div id="board1">
+		<div class="goal1"></div>
+		<div class="paddle_1 paddle"></div>
+		
+		<span class="ball"></span>
+	  </div>
+
+	  <div id="board2">
+		<div class="goal1"></div>
+		<div class="goal2"></div>
+		<div class="paddle_1 paddle"></div>
+		<div class="paddle_2 paddle"></div>
+		<span class="ball"></span>
+	  </div>
+
+	  <div id="board3">
+		<div class="goal1"></div>
+		<div class="goal2"></div>
+		<div class="goal3"></div>
+		<div class="paddle_1 paddle"></div>
+		<div class="paddle_2 paddle"></div>
+		<div class="paddle_3 paddle"></div>
+		<span class="ball"></span>
+	  </div>
+
+	  <div id="board4">
+		<div class="goal1"></div>
+		<div class="goal2"></div>
+		<div class="goal3"></div>
+		<div class="goal4"></div>
+		<div class="paddle_1 paddle"></div>
+		<div class="paddle_2 paddle"></div>
+		<div class="paddle_3 paddle"></div>
+		<div class="paddle_4 paddle"></div>
+		<span class="ball"></span>
+	  </div>
+	  <div id="numOfPlayers">&nbsp;</div>
+
+	  <a href="https://site230.webte.fei.stuba.sk/hra/logIn.html">
+		<button id="loginButton">Log in</button>
+		</a>
+
+</body>
+
+<script>
+
+const player1Lives = document.getElementById("player1Lives");
+
+
+const paddle1 = document.querySelector(".paddle_1");
+const paddles1 = document.querySelectorAll(".paddle_1");
+
+
+const paddle2 = document.querySelector(".paddle_2");
+const paddles2 = document.querySelectorAll(".paddle_2");
+
+
+const paddle3 = document.querySelector(".paddle_3");
+const paddles3 = document.querySelectorAll(".paddle_3");
+
+
+const paddle4 = document.querySelector(".paddle_4");
+const paddles4 = document.querySelectorAll(".paddle_4");
+
+
+</script>
+</html>

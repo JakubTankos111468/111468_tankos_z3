@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.6.0.js"></script>
+
+    <title>Document</title>
+</head>
+
+<script>
+		$(document).ready(function () {
+			var ws = new WebSocket("wss://site230.webte.fei.stuba.sk:9000");
+
+			ws.onopen = function () { log("Connection established"); };
+			ws.onerror = function (error) { log("Unknown WebSocket Error " + JSON.stringify(error)); };
+			ws.onmessage = function (e) {  var data = JSON.parse(e.data);
+                                     console.log((data));
+                                     log("< " + data.msg); 
+                                     document.getElementById("number").innerHTML = "Your number: " + data.playerNum + "<br>";   
+									 document.getElementById("numOfPlayers").innerHTML = "Number of players connected: " + data.num + "<br>";
+									 
+
+									 if (data.num === 4) {
+
+  const button = document.getElementById("loginButton");
+
+  button.click();
+}
+
+
+                                  };
+			ws.onclose = function () { log("Connection closed - Either the host or the client has lost connection"); }
+
+			function log(m) {
+				$("#log").append(m + "<br />");
+			}
+
+			function send() {
+				$Msg = $("#msg");
+				if ($Msg.val() == "") return alert("Textarea is empty");
+
+				try {
+    					ws.send($Msg.val()); log('> Sent to server:' + $Msg.val());
+    				} catch (exception) {
+    					log(exception);
+    				}
+    				$Msg.val("");
+			}
+
+			$("#send").click(send);
+			$("#msg").on("keydown", function (event) {
+				if (event.keyCode == 13) send();
+			});
+			$("#quit").click(function () {
+				log("Connection closed");
+				ws.close(); ws = null;
+			});      
+		});
+
+
+		
+    </script>
+
+    <style>
+
+#number {
+	background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+	margin-top: 30px;
+	margin-left: 38.2%;
+	width: 20%;   
+    }
+
+	#loginButton, #logoffButton {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 0 10px red;
+    transition: background-color 0.3s, color 0.3s;
+	
+	width: 30%;
+  }
+  #loginButton:hover {
+    background-color: red;
+    color: black;
+  }
+  #logoffButton:hover {
+    background-color: red;
+    color: black;
+  }
+  #box{
+	margin-left: 40%;
+	margin-top: 20%;
+	gap: 10px;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  #numOfPlayers {
+	background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+	margin-top: 30px;
+	margin-left: 38.2%;
+	width: 20%; 
+  }
+        </style>
+
+<body>
+	<div id="box">
+	<a href="https://site230.webte.fei.stuba.sk/hra/game.html">
+        <button id="loginButton">Start game</button>
+        </a>
+
+    <a href="https://site230.webte.fei.stuba.sk/hra/index.html">
+        <button id="logoffButton">Log off</button>
+        </a>
+	</div>
+    <p></p>
+    <div id="number">&nbsp;</div>
+	<div id="numOfPlayers">&nbsp;</div>
+</body>
+</html>
