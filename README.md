@@ -1,19 +1,10 @@
-Vyuˇzit´ım websoketov vytvorte online hru, ktor´u mˆoˇzete na Internete n´ajsˇt pod n´azvom Pong
-(https://www.ponggame.org/). Hru bud´u mˆocˇt hraˇt 1 aˇz 4 hr´aˇci.
-(1) Na titulnej webovej str´anke bude zobrazen´a hracia plocha s prebiehaj´ucou hrou alebo
-bude pon´ukaˇt moˇznosˇt prihl´asiˇt sa do hry pod zvolen´ym menom. V pr´ıpade, ˇze hra eˇste
-nezaˇcala, str´anka bude poskytovaˇt inform´aciu, koˇlko hr´aˇcov je aktu´alne prihl´asen´ych.
-(2) Po prihl´asen´ı sa bude maˇt prv´y prihl´asen´y hr´aˇc moˇznosˇt odˇstartovaˇt hru. Ak sa niektor´emu
-z hr´aˇcov nebude chcieˇt ˇcakaˇt na odˇstartovanie hry, mˆoˇze z miestnosti od´ısˇt. Ak odiˇsiel
-prv´y hr´aˇc, pr´avo odˇstartovania hry sa pos´uva na dalˇsieho prihl´asen´eho hr´aˇca. Hra mˆoˇze ˇ
-zaˇcaˇt aj automaticky a to vtedy, ked sa prihl´asi posledn´y ˇstvrt´y hr´aˇc. ˇ
-(3) Pri spusten´ı hry sa hracia plocha prispˆosob´ı podˇla poˇctu prihl´asen´ych hr´aˇcov (vid obr´azok). ˇ
-(4) Ulohou je pohybova ´ ˇt svojim hr´aˇcom, ktor´y je prezentovan´y pohybuj´ucim sa obd´lˇznikom,
-tak, aby loptiˇcka nepreˇsla za okraj hracej plochy na strane, ktor´u br´ani. Ako bude hra
-beˇzaˇt, pohyb loptiˇcky sa bude zr´ychˇlovaˇt.
-(5) Potiaˇl niektor´y z hr´aˇcov nechyt´ı loptiˇcku 3 kr´at, tak z hry vypad´ava a strana, ktor´u
-br´anil, sa nahrad´ı plnou ˇciarou, t.j. loptiˇcka sa na nej bude odr´aˇzaˇt.
-(6) Kaˇzd´y hr´aˇc bude maˇt zobrazen´u inform´aciu, koˇlkokr´at mu mˆoˇze eˇste loptiˇcka unikn´uˇt.
-(7) Hra sa skonˇc´ı, ked posledn´y hr´aˇc nechyt´ı 3 kr´at loptiˇcku. ˇ
-(8) Poˇcas hry poˇc´ıtajte a zobrazujte poˇcet odrazen´ych loptiˇciek (nez´aleˇz´ı na tom, ˇci ju odrazil
-protihr´aˇc alebo stena).
+Vyžitím websocketov vytvorte online hru, ktorú môžete na Internete nájsť pod názvom Pong (https://www.ponggame.org/). Hru budú môcť hrať 1 až 4 hráči.
+
+Na titulnej webovej stránke bude zobrazená hracia plocha s prebiehajúcou hrou alebo bude ponúkať možnosť prihlásiť sa do hry pod zvoleným menom. V prípade, že hra ešte nezačala, stránka bude poskytovať informáciu, koľko hráčov je aktuálne prihlásených.
+Po prihlásení sa bude mať prvý prihlásený hráč možnosť odštartovať hru. Ak sa niektorému z hráčov nebude chcieť čakať na odštartovanie hry, môže z miestnosti odísť. Ak odišiel prvý hráč, právo odštartovania hry sa posúva na ďalšieho prihláseného hráča. Hra môže začať aj automaticky a to vtedy, keď sa prihlási posledný štvrtý hráč.
+Pri spustení hry sa hracia plocha prispôsobí podľa počtu prihlásených hráčov (vid obrázok).
+Úlohou je pohybovať svojim hráčom, ktorý je prezentovaný pohybujúcim sa obdĺžnikom, tak, aby loptička neprešla za okraj hracej plochy na strane, ktorú bráni. Ako bude hra bežať, pohyb loptičky sa bude zrýchľovať.
+Pokiaľ niektorý z hráčov nechytí loptičku 3 krát, tak z hry vypadáva a strana, ktorú bránil, sa nahradí plnou čiarou, t.j. loptička sa na nej bude odrážať.
+Každý hráč bude mať zobrazenú informáciu, koľkokrát mu môže ešte loptička uniknúť.
+Hra sa skončí, keď posledný hráč nechytí 3 krát loptičku.
+Počas hry počítajte a zobrazujte počet odrazených loptičiek (nezáleží na tom, či ju odrazil protihráč alebo stena).
